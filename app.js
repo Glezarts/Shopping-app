@@ -1,8 +1,9 @@
 //Product Constructor
 class Product {
-  constructor(name, price) {
+  constructor(name, price, year) {
     this.name = name;
     this.price = price;
+    this.year = year;
   }
 }
 
@@ -17,7 +18,8 @@ class UI {
         <div class="card-body">
           <h5><strong>${product.name}</strong></h5>
           <strong >Price</strong>: ${product.price}€ 
-          <a href="#" class="btn btn-danger ml-5" name="delete">Delete</a>
+          <strong >Year</strong>: ${product.year}
+          <a href="#" onclick="UI.deleteProduct(event)" class="dlt btn btn-danger ml-5" name="delete">Delete</a>
         </div>
       </div>
     `;
@@ -28,10 +30,12 @@ class UI {
     document.getElementById("product-form").reset();
   }
 
-  static deleteProduct(element) {
-    console.log("element", element)
-    element.parentElement.parentElement.remove();
-    return true;
+  static deleteProduct(event) {
+    console.log("event", event)
+    event.target.closest("div.card.text-center.mb-4").remove();
+      UI.showMessage("Product removed successfully", "danger");
+   
+   // return true;
   }
 
   static showMessage(message, cssClass) {
@@ -57,10 +61,10 @@ class UI {
 document.getElementById("product-form").addEventListener("submit", e => {
   const name = document.getElementById("product-name").value
     price = document.getElementById("product-price").value
-
+    year = document.getElementById("product-year").value
 
   //Create a new Object Product
-  const product = new Product(name, price);
+  const product = new Product(name, price, year);
 
 
   //Save product
@@ -72,10 +76,16 @@ document.getElementById("product-form").addEventListener("submit", e => {
 });
 
 //Delete product
-document.getElementById("product-list").addEventListener("click", e => {
-  UI.deleteProduct(e.target);
-  if (UI.deleteProduct(e.target)) {
-    UI.showMessage("Product removed successfully", "danger");
-  }
-  e.preventDefault();
+/*document.querySelectorAll(".dlt").forEach( element =>{
+  element.addEventListener("click", e => {
+    UI.deleteProduct(e.target);
+  
+    if (UI.deleteProduct(e.target)) {
+      UI.showMessage("Product removed successfully", "danger");
+    }
+    e.preventDefault();
+})
 });
+
+*/
+
